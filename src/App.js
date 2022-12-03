@@ -13,7 +13,7 @@ import "./App.css";
 
 // App 컴포넌트, <div></div>태그를 리턴하는 App 함수
 function App() {
-  //리턴문 앞 영역은 자바스크립트 쓸 수 있는 영역
+  // 리턴문 앞 영역은 자바스크립트 쓸 수 있는 영역
   return (
     // 리턴문 안 영역은 JSX문법을 쓸 수 있는 영역(HTML 태그처럼)
     <div>
@@ -35,6 +35,7 @@ const Todo = () => {
   ]);
   // 추가하기 버튼의 함수
   const onAddTodo = () => {
+    // 타이틀과 콘텐츠 값이 없다면 리턴에서 실행 중단
     if (title === "" || content === "") return;
     let newData = {
       id: todo.length + 1,
@@ -42,12 +43,14 @@ const Todo = () => {
       content: content,
       isDone: false,
     };
-    // 전개연산자를 통해 불변성을 지켜줌 [...todo -> 기존 값 newData -> 추가하고 싶은 값]
+    // 전개연산자를 통해 불변성을 지켜줌 [...todo -> 기존 값, newData -> 추가하고 싶은 값]
     let copy = [...todo, newData];
     // copy set함수
     setTodo(copy);
   };
   // 삭제하기 버튼의 함수
+  // 삭제할 id를 받아서 삭제를 해야하기 때문에 기존값 todo에서 filter를 해줘야함
+  // 그래서 td.id가 제가 설정한 id와 같지 않다면 그 내용을 filter 즉 걸러줘서 새 newArray를 만듬
   const onDeleteTodo = (id) => {
     const newArray = todo.filter((td) => td.id !== id);
     // newArray set 함수
@@ -65,7 +68,7 @@ const Todo = () => {
 
   return (
     // JSX에서는 1개의 Element만 반환할 수 있어 1개의 <div> 태그에 묶음
-    //자바스크립트는 {}를 사용 {}가 없으면 단순 문자열로 인식
+    // 자바스크립트는 {}를 사용 {}가 없으면 단순 문자열로 인식
     <div>
       <div className="container">
         <div>My Todo list</div>
@@ -129,6 +132,7 @@ const Todo = () => {
         <div className="done">
           {/* 맵으로 배열의 모든 요소를 순회시킴*/}
           {todo.map((td) =>
+            // 삼항 연산자
             td.isDone === true ? (
               <div className="working-box">
                 <h2>{td.title}</h2>
@@ -158,9 +162,10 @@ const Todo = () => {
   );
 };
 
-// props을 사용하여 중괄호 안의 값을 전달
+// 삼항연산자에 쓰일 컴포넌트(아직 적용안함)
 const TodoCard = (props) => {
   const { td, onDeleteTodo, onFinishTodo } = props;
+  // 객체 구조 분해 할당
   return (
     <div>
       <h2>{td.title}</h2>
@@ -171,5 +176,5 @@ const TodoCard = (props) => {
   );
 };
 
-//컴포넌트를 밖으로 사용할 수 있게 내보내는 영역
+// 컴포넌트를 밖으로 사용할 수 있게 내보내는 영역
 export default App;
